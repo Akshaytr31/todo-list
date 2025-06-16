@@ -1,22 +1,9 @@
 import { defineStore } from "pinia";
 
+import { ref } from "vue";
 
-export const useListStore=defineStore('listStore',{
-    state:()=>({
-        Lists:[
-            {
-                id:1,title:'list one'
-            }
-        ],
-    }),
-    actions:{
-        addTask(list){
-            this.Lists.push(list)
-        },
-        deleteTask(id){
-            this.list=this.Lists.filter(t=>{
-                return t.id!==id
-            })
-        }
-    }
+
+export const useListStore=defineStore('listStore',()=>{
+    const Lists=ref([{id:1,title:'list one'}])
+    return {Lists}
 })
