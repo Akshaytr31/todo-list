@@ -2,7 +2,7 @@
 
 body {
   background: #f2f2f2;
-  color: #ebe7e7;
+  color: #f1eeee;
   margin: 0;
 }
 body * {
@@ -14,3 +14,6 @@ header{
   background-color: #676666;
 }
 
+.list-elements{
+  color: rgb(18, 18, 18);
+}
