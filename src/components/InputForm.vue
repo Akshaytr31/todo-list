@@ -1,70 +1,87 @@
 <template>
+  <div class="main-container">
     <form @submit.prevent="handleSubmit" class="from-input">
-        <input type="text"
-        placeholder="Enter list item"
-        v-model="newElement"
-        >
-        <button>+</button>
+      <input type="text" placeholder="Enter list item" v-model="newElement" />
+      <button>Add</button>
     </form>
+    <div class="dropdown">
+      <label for="type">Select status</label>
+      <select name="type" id="type" v-model="form.type" class="select">
+        <option value="todo">Todo</option>
+        <option value="pending">Pending</option>
+        <option value="done">Done</option>
+      </select>
+    </div>
+  </div>
 </template>
 
-<script>
-import { ref } from 'vue';
-import { useListStore } from '@/stores/ListStore';
-
-    export default {
-        setup(){
-
-            const listStore=useListStore()
-            const newElement=ref('')
-            const handleSubmit=()=>{
-                if(newElement.value.length>0){
-                    listStore.Lists.push({
-                        title:newElement.value,
-                        id:Math.floor(Math.random()*1000)
-                    })
-                    newElement.value=''
-                }
-            }
-            return {handleSubmit,newElement}
-        }
-        
-    }
+<script setup>
+import { reactive, ref } from "vue";
+import { useListStore } from "@/stores/ListStore";
+const form = reactive({
+  type: "todo",
+});
+const listStore = useListStore();
+const newElement = ref("");
+const handleSubmit = () => {
+  if (newElement.value.length > 0) {
+    listStore.Lists.push({
+      title: newElement.value,
+    });
+    newElement.value = "";
+  }
+  return { handleSubmit, newElement, form };
+};
 </script>
 
 <style lang="scss" scoped>
-.main{
-    display: flex;
-    justify-content: center;
+.main-container {
+  background: #fff;
 }
-form{
-    display: flex;
-    max-width:600px;
-    background: #fff;
-    height: 59px;
-    padding-inline: 30px;
-    margin: 10px auto;
-    border-radius: 5px;
-    box-shadow: 2px 4px 6px rgba(0,0,0,0.05);
-
+.select {
+  border: 2px solid gray;
+  background: #fff;
+  max-width: 300px;
 }
-input{
-    outline: none;
-    border: 0;
-    height: 57px;
-    width: 100%;
+.select:focus {
+  outline: none;
 }
-button{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-    border: 0;
-    padding-inline: 20px;
-    background: blue;
-    font-size: 40px;
-    box-shadow: 2px 4px 6px rgba(0,0,0,0.05);
-
+.dropdown {
+  background: #fff;
+  display: flex;
+  // justify-content: space-between;
+  padding-inline: 30px;
+  flex-direction: column;
 }
-
+form {
+  display: flex;
+  max-width: 600px;
+  background: #fff;
+  height: 59px;
+  padding-inline: 30px;
+  margin: 10px auto;
+  border-radius: 5px;
+  // box-shadow: 2px 4px 6px rgba(0,0,0,0.05);
+}
+input {
+  outline: none;
+  border: 2px gray solid;
+  height: 57px;
+  width: 100%;
+}
+button {
+  height: 63px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  border: 0;
+  padding-inline: 20px;
+  background: blue;
+  font-size: 40px;
+  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.05);
+}
+.dropdown {
+  color: #000;
+}
 </style>
