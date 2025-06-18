@@ -18,19 +18,20 @@
 <script setup>
 import { reactive, ref } from "vue";
 import { useListStore } from "@/stores/ListStore";
+
 const form = reactive({
   type: "todo",
 });
 const listStore = useListStore();
-const newElement = ref("");
+const newTask = ref("");
 const handleSubmit = () => {
-  if (newElement.value.length > 0) {
+  if (newTask.value.length > 0) {
     listStore.Lists.push({
-      title: newElement.value,
+      title: newTask.value,
     });
-    newElement.value = "";
+    newTask.value = "";
   }
-  return { handleSubmit, newElement, form };
+  return { handleSubmit, newTask, form };
 };
 </script>
 
