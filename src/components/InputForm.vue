@@ -27,9 +27,7 @@ const newTask = ref("");
 
 const addTodo = () => {
   if (newTask.value.length > 0) {
-    listStore.Lists.push({
-      title: newTask.value,
-    });
+    listStore.getTodoList({ title: newTask.value });
     newTask.value = "";
   }
   return { addTodo, newTask, form };
