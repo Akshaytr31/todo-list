@@ -2,7 +2,7 @@
   <div class="main-container">
     <form @submit.prevent="addTodo" class="from-input">
       <input type="text" placeholder="Enter list item" v-model="newTask" />
-      <button>Add</button>
+      <BaseButtons variant="primary" text="Add"/> 
     </form>
     <div class="select-box">
       <label for="type">Select status</label>
@@ -16,6 +16,7 @@
 </template>
 
 <script setup>
+import BaseButtons from "./BaseButtons.vue";
 import { reactive, ref } from "vue";
 import { useListStore } from "@/stores/ListStore";
 
