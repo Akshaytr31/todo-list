@@ -1,14 +1,14 @@
 <template>
   <div class="main-container">
-    <form @submit.prevent="handleSubmit" class="from-input">
-      <input type="text" placeholder="Enter list item" v-model="newElement" />
+    <form @submit.prevent="addTodo" class="from-input">
+      <input type="text" placeholder="Enter list item" v-model="newTask" />
       <button>Add</button>
     </form>
-    <div class="dropdown">
+    <div class="select-box">
       <label for="type">Select status</label>
       <select name="type" id="type" v-model="form.type" class="select">
         <option value="todo">Todo</option>
-        <option value="pending">Pending</option>
+        <option value="pending">In Progress</option>
         <option value="done">Done</option>
       </select>
     </div>
@@ -24,14 +24,15 @@ const form = reactive({
 });
 const listStore = useListStore();
 const newTask = ref("");
-const handleSubmit = () => {
+
+const addTodo = () => {
   if (newTask.value.length > 0) {
     listStore.Lists.push({
       title: newTask.value,
     });
     newTask.value = "";
   }
-  return { handleSubmit, newTask, form };
+  return { addTodo, newTask, form };
 };
 </script>
 
@@ -47,12 +48,12 @@ const handleSubmit = () => {
 .select:focus {
   outline: none;
 }
-.dropdown {
+.select-box {
   background: #fff;
   display: flex;
-  // justify-content: space-between;
   padding-inline: 30px;
   flex-direction: column;
+  color: #000;
 }
 form {
   display: flex;
@@ -62,7 +63,6 @@ form {
   padding-inline: 30px;
   margin: 10px auto;
   border-radius: 5px;
-  // box-shadow: 2px 4px 6px rgba(0,0,0,0.05);
 }
 input {
   outline: none;
@@ -81,8 +81,5 @@ button {
   background: blue;
   font-size: 40px;
   box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.05);
-}
-.dropdown {
-  color: #000;
 }
 </style>
