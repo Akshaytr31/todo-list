@@ -4,8 +4,8 @@
     </button>
 </template>
 
-<script>
-    export default {
+<script setup>
+    defineProps({
         name:'BaseButton',
         variant:{
             type:String,
@@ -16,7 +16,7 @@
             view:'View',
             delete:'Delete'
         }
-    }
+    })
 </script>
 
 <style lang="scss" scoped>
