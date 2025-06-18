@@ -4,9 +4,9 @@ import { ref } from "vue";
 export const useListStore = defineStore("listStore", () => {
   const Lists = ref([]);
 
-  const getTask = (data) => {
+  const getTodoList = (data) => {
     Lists.value = data;
   };
   
-  return { Lists, getTask };
+  return { Lists, getTodoList };
 });
