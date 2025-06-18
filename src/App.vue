@@ -21,6 +21,8 @@ export default {
   components:{ListElement},
   setup(){
     const listStore=useListStore()
+    listStore.getTodoList()
+
     return {listStore}
   }
 };
