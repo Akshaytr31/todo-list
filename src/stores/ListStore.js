@@ -2,11 +2,11 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 
 export const useListStore = defineStore("listStore", () => {
-  const Lists = ref([]);
+  const lists = ref([]);
 
-  const getTodoList = (data) => {
-    Lists.value.push(data)
+  const setTodoList = (data) => {
+    lists.value.push(data)
   };
   
-  return { Lists, getTodoList };
+  return { lists, setTodoList };
 });
