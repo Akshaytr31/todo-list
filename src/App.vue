@@ -5,6 +5,11 @@
     <header>
       <h1>Todo list</h1>
     </header>
+    
+
+    <!-- input form -->
+    <InputForm/>
+
 
     <div class="list-elements">
       <div v-for="list in listStore.Lists" :key="list.id">
@@ -14,16 +19,12 @@
   </main>
 </template>
 
-<script>
+<script setup>
+import InputForm from "./components/InputForm.vue";
 import ListElement from "./components/ListElement.vue";
 import { useListStore } from "./stores/ListStore";
-export default {
-  components:{ListElement},
-  setup(){
-    const listStore=useListStore()
-    listStore.getTodoList()
 
-    return {listStore}
-  }
-};
+  const listStore=useListStore()
+  listStore.getTodoList()
+
 </script>
