@@ -25,6 +25,5 @@ import ListElement from "./components/ListElement.vue";
 import { useListStore } from "./stores/ListStore";
 
   const listStore=useListStore()
-  listStore.getTodoList()
 
 </script>
