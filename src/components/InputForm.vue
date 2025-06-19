@@ -12,14 +12,14 @@
           </select>
         </div>
       </div>
-      <BaseButtons variant="primary" text="Add"/>
+      <BaseButtons variant="primary" text="Add" />
     </form>
   </div>
 </template>
 
 <script setup>
+import { reactive ,ref} from "vue";
 import BaseButtons from "./BaseButtons.vue";
-import { reactive, ref } from "vue";
 import { useListStore } from "@/stores/ListStore";
 
 const form = reactive({
@@ -31,7 +31,7 @@ const newTask = ref("");
 const addTodo = () => {
   if (newTask.value.length > 0) {
     listStore.getTodoList({ title: newTask.value });
-    newTask.value = "";   
+    newTask.value = "";
   }
   return { addTodo, newTask, form };
 };
@@ -51,11 +51,11 @@ const addTodo = () => {
   gap: 10px;
   height: 160px;
 }
-.container{
+.container {
   display: flex;
-  gap:30px;
+  gap: 30px;
 }
-.from-input{
+.from-input {
   display: flex;
   flex-direction: column;
   gap: 30px;
@@ -66,14 +66,14 @@ const addTodo = () => {
   border: 2px solid rgb(245, 245, 245);
   background: #fff;
   max-width: 300px;
-  border-radius:6px ;
+  border-radius: 6px;
   box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.05);
   padding: 4px;
 }
 .select:focus {
   outline: none;
 }
-input::placeholder{
+input::placeholder {
   font-size: 20px;
 }
 .select-box {
@@ -97,7 +97,7 @@ input {
   border: 2px rgb(238, 238, 238) solid;
   width: 100%;
   border-radius: 50px;
-  padding: 20px 20px 13px 20px;;
+  padding: 20px 20px 13px 20px;
   box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.05);
 }
 button {
@@ -112,7 +112,7 @@ button {
   font-size: 40px;
   box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.05);
 }
-.select option{
+.select option {
   background: rgb(255, 255, 255);
   border: none;
 }
