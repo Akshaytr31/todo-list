@@ -1,6 +1,8 @@
 <template>
     <button :class="['base-button',variant]">
-        <i v-if="icon" class="material-icons">{{ icon }}</i>
+        <i v-if="icon" class="material-icons">
+          {{ icon }}
+        </i>
         <span class="button-text">{{ text }}</span>
     </button>
 </template>
