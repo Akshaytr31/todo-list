@@ -1,17 +1,19 @@
 <template>
   <div class="main-container">
     <form @submit.prevent="addTodo" class="from-input">
-      <input type="text" placeholder="Enter list item" v-model="newTask" />
-      <div class="select-box">
-        <label for="type">Status</label>
-        <select name="type" id="type" v-model="form.type" class="select">
-          <option value="todo">Todo</option>
-          <option value="pending">In Progress</option>
-          <option value="done">Done</option>
-        </select>
+      <div class="container">
+        <input type="text" placeholder="Enter list item" v-model="newTask" />
+        <div class="select-box">
+          <label for="type">Status</label>
+          <select name="type" id="type" v-model="form.type" class="select">
+            <option value="todo">Todo</option>
+            <option value="pending">In Progress</option>
+            <option value="done">Done</option>
+          </select>
+        </div>
       </div>
+      <BaseButtons variant="primary" text="Add"/>
     </form>
-    <BaseButtons variant="primary" text="Add"/> 
   </div>
 </template>
 
@@ -29,7 +31,7 @@ const newTask = ref("");
 const addTodo = () => {
   if (newTask.value.length > 0) {
     listStore.getTodoList({ title: newTask.value });
-    newTask.value = "";
+    newTask.value = "";   
   }
   return { addTodo, newTask, form };
 };
@@ -47,9 +49,15 @@ const addTodo = () => {
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  height: 160px;
+}
+.container{
+  display: flex;
+  gap:30px;
 }
 .from-input{
   display: flex;
+  flex-direction: column;
   gap: 30px;
   justify-content: space-between;
   width: 100%;
