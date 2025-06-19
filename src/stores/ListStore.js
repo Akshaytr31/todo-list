@@ -5,7 +5,7 @@ export const useListStore = defineStore("listStore", () => {
   const Lists = ref([]);
 
   const getTodoList = (data) => {
-    Lists.value = data;
+    Lists.value.push(data)
   };
   
   return { Lists, getTodoList };
