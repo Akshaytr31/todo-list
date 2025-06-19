@@ -1,35 +1,45 @@
 <template>
-    <button class="['base-button',variant]">
-        {{ icon }}
+    <button :class="['base-button',variant]">
+        <i v-if="icon" class="material-icons">delete</i>
+        <span class="button-text">{{ text }}</span>
     </button>
 </template>
 
 <script setup>
     defineProps({
-        name:'BaseButton',
+        text:String,
         variant:{
             type:String,
-            default:'primary',
+            default:'primary'
         },
-        icon:{
-            add:'Add',
-            view:'View',
-            delete:'Delete'
-        }
+        icon:String
     })
 </script>
 
 <style lang="scss" scoped>
-    .base-button{
-        padding: 10px;
-        border: none;
-        border-radius: 8px;
-        font-size: 18px;
-        cursor: pointer;
-        transition: 0.3s ease all;
-    }
-    .base-button.primary{
-        background-color: #007bff;
-        color: #fff;
-    }
+.base-button {
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: 0.3s ease all;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.base-button.primary {
+  background-color: green;
+  color: #fff;
+}
+.base-button.view {
+  background-color: #007bff;
+  color: #fff;
+}
+.base-button.delete {
+  background-color: red;
+  color: #fff;
+}
 </style>
+
