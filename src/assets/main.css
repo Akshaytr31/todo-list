@@ -16,4 +16,9 @@ header{
 
 .list-elements{
   color: rgb(18, 18, 18);
+  max-width: 700px;
+  background-color: white;
+  padding: 20px;
+  margin: 20px auto;
+  border-radius: 10px;
 }
