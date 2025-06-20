@@ -9,9 +9,7 @@ export const useListStore = defineStore("listStore", () => {
   };
 
   const deleteList=(id)=>{
-    lists.value=lists.value.filter(item=>{
-      return item.id!==id
-    })
+    lists.value = lists.value.filter(item=>(item.id !== id));
   }
   
   return { lists, setTodoList ,deleteList}
