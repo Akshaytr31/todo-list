@@ -29,6 +29,14 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+.base-button i{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .base-button.primary {
