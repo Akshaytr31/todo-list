@@ -1,9 +1,12 @@
 <template>
   <div class="main-container">
-    <form @submit.prevent="addTodo" class="from-input">
+    <form @submit.prevent="addTodo" class="form-input">
       <div class="container">
-        <input type="text" placeholder="Enter list item" v-model="newTask" />
-        <div class="select-box">
+        <div class="input-container">
+          <label for="">Input</label>
+          <input type="text" placeholder="Enter list item" v-model="newTask" />
+        </div>
+        <div class="input-container">
           <label for="type">Status</label>
           <select name="type" id="type" v-model="form.type" class="select">
             <option value="todo">Todo</option>
@@ -12,7 +15,9 @@
           </select>
         </div>
       </div>
-      <BaseButtons variant="primary" text="Add" />
+      <div class="button-container">
+        <BaseButtons variant="primary" text="Add" />
+      </div>
     </form>
   </div>
 </template>
@@ -30,7 +35,7 @@ const newTask = ref("");
 
 const addTodo = () => {
   if (newTask.value.length > 0) {
-    listStore.getTodoList({ title: newTask.value });
+    listStore.setTodoList({ title: newTask.value });
     newTask.value = "";
   }
   return { addTodo, newTask, form };
@@ -38,82 +43,68 @@ const addTodo = () => {
 </script>
 
 <style lang="scss" scoped>
-.main-container {
-  background: #fff;
-  padding: 20px 40px;
-  max-width: 600px;
-  margin: 30px auto 0 auto;
-  border-radius: 15px;
-  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.05);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  height: 160px;
-}
-.container {
-  display: flex;
-  gap: 30px;
-}
-.from-input {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-  justify-content: space-between;
-  width: 100%;
-}
-.select {
-  border: 2px solid rgb(245, 245, 245);
-  background: #fff;
-  max-width: 300px;
-  border-radius: 6px;
-  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.05);
-  padding: 4px;
-}
-.select:focus {
-  outline: none;
-}
-input::placeholder {
-  font-size: 20px;
-}
-.select-box {
-  background: #fff;
-  display: flex;
-  // padding-inline: 30px;
-  flex-direction: column;
-  color: #676565;
-}
-form {
-  display: flex;
-  max-width: 600px;
-  background: #fff;
-  height: 59px;
-  // padding-inline: 30px;
-  margin: 10px auto;
-  border-radius: 5px;
-}
-input {
-  outline: none;
-  border: 2px rgb(238, 238, 238) solid;
-  width: 100%;
-  border-radius: 50px;
-  padding: 20px 20px 13px 20px;
-  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.05);
-}
-button {
-  height: 63px;
+.primary{
+  padding-inline: 40px;
+  max-width: 60px;
   display: flex;
   justify-content: center;
-  align-items: center;
-  color: #fff;
-  border: 0;
-  padding-inline: 20px;
-  background: blue;
-  font-size: 40px;
-  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.05);
+  float: left;
 }
-.select option {
-  background: rgb(255, 255, 255);
+.main-container{
+  margin: 20px auto;
+  color: #000;
+  padding: 40px 0;
+  background: #fff;
+  max-width: 700px;
+  border-radius: 10px;
+  box-shadow: 2px 4px 6px rgba(0,0,0,0.05);
+}
+.form-input{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.container{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.input-container{
+  color: black;
+  display: flex;
+  align-items: center;
+  padding-inline: 40px;
+  gap: 50px;
+}
+.input-container:last-child{
+  gap: 40px;
+}
+.button-container{
+  display: flex;
+  justify-content: flex-end;
+  padding-inline: 40px;
+}
+
+input{
+  padding: 10px;
+  border-radius: 10px;
   border: none;
+  box-shadow: 2px 4px 6px rgba(0,0,0,0.05);
+  width: 100%;
+  border: 1px solid rgb(232, 232, 232);
+
+}
+input:focus{
+  outline-color: rgb(179, 204, 179);
+}
+select{
+ width: 100%;
+ box-shadow: 2px 4px 6px rgba(0,0,0,0.05);
+ border: none;
+ padding: 10px;
+ border-radius:10px ;
+}
+select:focus{
+  outline-color: rgb(179, 204, 179);
 }
 </style>
