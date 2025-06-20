@@ -7,6 +7,12 @@ export const useListStore = defineStore("listStore", () => {
   const setTodoList = (data) => {
     lists.value.push(data)
   };
+
+  const deleteList=(id)=>{
+    lists.value=lists.value.filter(item=>{
+      return item.id!==id
+    })
+  }
   
-  return { lists, setTodoList };
+  return { lists, setTodoList ,deleteList}
 });
