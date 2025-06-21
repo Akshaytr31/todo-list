@@ -50,6 +50,7 @@ const addTodo = () => {
   justify-content: center;
   float: left;
 }
+
 .main-container{
   margin: 20px auto;
   color: #000;
@@ -59,16 +60,19 @@ const addTodo = () => {
   border-radius: 10px;
   box-shadow: 2px 4px 6px rgba(0,0,0,0.05);
 }
+
 .form-input{
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
+
 .container{
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
+
 .input-container{
   color: black;
   display: flex;
@@ -76,9 +80,11 @@ const addTodo = () => {
   padding-inline: 40px;
   gap: 50px;
 }
+
 .input-container:last-child{
   gap: 40px;
 }
+
 .button-container{
   display: flex;
   justify-content: flex-end;
@@ -94,6 +100,7 @@ input{
   border: 1px solid rgb(232, 232, 232);
 
 }
+
 input:focus{
   outline-color: rgb(179, 204, 179);
 }
@@ -104,6 +111,7 @@ select{
  padding: 10px;
  border-radius:10px ;
 }
+
 select:focus{
   outline-color: rgb(179, 204, 179);
 }
