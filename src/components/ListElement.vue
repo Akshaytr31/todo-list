@@ -1,27 +1,34 @@
 <template>
-  <div class="list">
+  <div class="list-wrapper">
     <p>{{ list.title }}</p>
     <div class="container">
       <BaseButtons variant="view" text="view" />
-      <div class="icons">
-        <BaseButtons variant="delete" icon="delete" @delete-event="listStore.deleteList(list.id)" />
-      </div>
+      <BaseButtons
+        variant="delete"
+        icon="delete"
+        @delete-event="deleteTodoList"
+      />
     </div>
   </div>
 </template>
 
 <script setup>
-import { useListStore } from "@/stores/ListStore";
-import BaseButtons from "./BaseButtons.vue";
 import { defineProps } from "vue";
 
-const listStore=useListStore()
+import { useListStore } from "@/stores/ListStore";
+import BaseButtons from "./BaseButtons.vue";
+
+const listStore = useListStore();
 const props = defineProps({
   list: {
     title: String,
     id: Number,
   },
 });
+
+const deleteTodoList = (id) => {
+  listStore.deleteList(props.list.id);
+};
 </script>
 
 <style lang="scss" scoped>
@@ -30,12 +37,14 @@ const props = defineProps({
   gap: 40px;
   align-items: center;
 }
+
 .delete {
-  height: 47px;
+  height: 41px;
   display: flex;
   justify-content: center;
 }
-.list {
+
+.list-wrapper {
   max-width: 640px;
   margin: 4px auto;
   display: flex;
@@ -46,10 +55,12 @@ const props = defineProps({
   box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.05);
   border-radius: 5px;
 }
-.list:hover {
+
+.list-wrapper:hover {
   box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.09);
   transition: 0.5s ease-in;
 }
+
 .material-icons {
   color: #fff;
   background: rgb(216, 3, 3);
@@ -57,6 +68,7 @@ const props = defineProps({
   border-radius: 8px;
   box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.05);
 }
+
 .material-icons:hover {
   scale: 1.02;
   transition: 0.2s ease;
