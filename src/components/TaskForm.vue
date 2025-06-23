@@ -3,11 +3,11 @@
     <form @submit.prevent="addTodo" class="form-input">
       <div class="form-container">
         <div class="input-container">
-          <label for="input">Input</label>
+          <label for="input">Todo Item:</label>
           <input type="text" placeholder="Enter list item" v-model="newTask" />
         </div>
         <div class="input-container">
-          <label for="type">Status</label>
+          <label for="type">Status:</label>
           <div class="select-container">
             <select name="type" id="type" v-model="form.status">
               <option value="Todo">Todo</option>
@@ -30,7 +30,7 @@ import { useListStore } from "@/stores/ListStore";
 import BaseButtons from "./BaseButtons.vue";
 
 const form = reactive({
-  status: "Todo",
+  status: "select status",
 });
 
 const listStore = useListStore();
@@ -46,7 +46,7 @@ const addTodo = () => {
     });
     newTask.value = "";
   }
-  
+
   return { addTodo, newTask, form };
 };
 </script>
