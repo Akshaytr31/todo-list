@@ -18,12 +18,11 @@
         </div>
       </div>
       <div class="button-container">
-        <BaseButtons variant="primary" text="Add Task" />
+        <BaseButtons variant="primary" text="Add Task"/>
       </div>
     </form>
   </div>
 </template>
-
 <script setup>
 import { useListStore } from "@/stores/ListStore";
 import { reactive, ref } from "vue";
@@ -34,14 +33,15 @@ const form = reactive({
 });
 
 const listStore = useListStore();
+
 const newTask = ref("");
 
 const addTodo = () => {
   if (newTask.value.length > 0) {
-    listStore.setTodoList({
-      title: newTask.value,
-      status: form.status,
-      id: Math.floor(Math.random() * 10000),
+    listStore.setTodoList({ 
+      title: newTask.value ,
+      status:form.status,
+      id: Math.floor(Math.random() * 10000)
     });
     newTask.value = "";
   }
@@ -84,13 +84,12 @@ const addTodo = () => {
   gap: 40px;
 }
 
-.select-container {
+.select-container{
   width: 100%;
   box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.05);
-  padding: 7px 10px;
+  padding:7px 10px;
   border-radius: 10px;
-  border: 1px solid rgb(232, 232, 232);
-}
+  border: 1px solid rgb(232, 232, 232);}
 
 .button-container {
   display: flex;
