@@ -1,27 +1,26 @@
 <template>
   <div class="list-wrapper">
     <p>{{ list.title }}</p>
+    <p>{{ list.status }}</p>
     <div class="container">
-      <BaseButtons variant="view" text="view" />
-      <BaseButtons
-        variant="delete"
-        icon="delete"
-        @delete-event="deleteTodoList"
-      />
+      <router-link to="/view">
+        <BaseButtons variant="view" text="view" />
+      </router-link>
+      <BaseButtons variant="delete" icon="delete" @on-click="deleteTodoList" />
     </div>
   </div>
 </template>
-
 <script setup>
 import { defineProps } from "vue";
-
 import { useListStore } from "@/stores/ListStore";
+
 import BaseButtons from "./BaseButtons.vue";
 
 const listStore = useListStore();
 const props = defineProps({
   list: {
     title: String,
+    status: String,
     id: Number,
   },
 });
@@ -30,7 +29,6 @@ const deleteTodoList = (id) => {
   listStore.deleteList(props.list.id);
 };
 </script>
-
 <style lang="scss" scoped>
 .container {
   display: flex;
@@ -39,7 +37,7 @@ const deleteTodoList = (id) => {
 }
 
 .delete {
-  height: 41px;
+  height: 47px;
   display: flex;
   justify-content: center;
 }
