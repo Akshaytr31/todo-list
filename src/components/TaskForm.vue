@@ -24,8 +24,9 @@
   </div>
 </template>
 <script setup>
-import { useListStore } from "@/stores/ListStore";
 import { reactive, ref } from "vue";
+import { useListStore } from "@/stores/ListStore";
+
 import BaseButtons from "./BaseButtons.vue";
 
 const form = reactive({
@@ -45,10 +46,10 @@ const addTodo = () => {
     });
     newTask.value = "";
   }
+
   return { addTodo, newTask, form };
 };
 </script>
-
 <style lang="scss" scoped>
 .main-container {
   margin: 20px auto;
