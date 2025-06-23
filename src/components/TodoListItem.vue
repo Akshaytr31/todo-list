@@ -28,6 +28,8 @@ const props = defineProps({
 
 const taskId = props.list.id;
 
+// delete opereation of tasks
+
 const deleteTodoItem = (id) => {
   listStore.deleteList(props.list.id);
 };
