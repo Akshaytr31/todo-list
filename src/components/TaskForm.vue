@@ -10,6 +10,7 @@
           <label for="type">Status:</label>
           <div class="select-container">
             <select name="type" id="type" v-model="form.status">
+              <option disabled value="">-Select status-</option>
               <option value="Todo">Todo</option>
               <option value="In Progress">In Progress</option>
               <option value="Done">Done</option>
@@ -18,7 +19,7 @@
         </div>
       </div>
       <div class="button-container">
-        <BaseButtons variant="primary" text="Add Task"/>
+        <BaseButtons variant="primary" text="Add Task" />
       </div>
     </form>
   </div>
@@ -30,19 +31,21 @@ import { useListStore } from "@/stores/ListStore";
 import BaseButtons from "./BaseButtons.vue";
 
 const form = reactive({
-  status: "select status",
+  status: "",
 });
 
 const listStore = useListStore();
 
 const newTask = ref("");
 
+const count = 1;
+
 const addTodo = () => {
   if (newTask.value.length > 0) {
-    listStore.setTodoList({ 
-      title: newTask.value ,
-      status:form.status,
-      id: Math.floor(Math.random() * 10000)
+    listStore.setTodoList({
+      title: newTask.value,
+      status: form.status,
+      id: count++,
     });
     newTask.value = "";
   }
@@ -79,18 +82,20 @@ const addTodo = () => {
   align-items: center;
   padding-inline: 40px;
   gap: 50px;
+  text-wrap: nowrap;
 }
 
 .input-container:last-child {
-  gap: 40px;
+  gap: 80px;
 }
 
-.select-container{
+.select-container {
   width: 100%;
   box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.05);
-  padding:7px 10px;
+  padding: 7px 10px;
   border-radius: 10px;
-  border: 1px solid rgb(232, 232, 232);}
+  border: 1px solid rgb(232, 232, 232);
+}
 
 .button-container {
   display: flex;
