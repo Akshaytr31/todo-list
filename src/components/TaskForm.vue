@@ -9,7 +9,7 @@
         <div class="input-container">
           <label for="type">Status</label>
           <div class="select-container">
-            <select name="type" id="type" v-model="form.status" class="select">
+            <select name="type" id="type" v-model="form.status">
               <option value="Todo">Todo</option>
               <option value="In Progress">In Progress</option>
               <option value="Done">Done</option>
@@ -25,8 +25,8 @@
 </template>
 <script setup>
 import { reactive, ref } from "vue";
-import { useListStore } from "@/stores/ListStore";
 
+import { useListStore } from "@/stores/ListStore";
 import BaseButtons from "./BaseButtons.vue";
 
 const form = reactive({
@@ -46,7 +46,7 @@ const addTodo = () => {
     });
     newTask.value = "";
   }
-
+  
   return { addTodo, newTask, form };
 };
 </script>
