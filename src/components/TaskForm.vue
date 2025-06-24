@@ -3,11 +3,11 @@
     <form @submit.prevent="addTodo" class="form-input">
       <div class="form-container">
         <div class="input-container">
-          <label for="input">Input</label>
+          <label for="input">Todo item:</label>
           <input type="text" placeholder="Enter list item" v-model="newTask" />
         </div>
         <div class="input-container">
-          <label for="type">Status</label>
+          <label for="type">Status:</label>
           <div class="select-container">
             <select name="type" id="type" v-model="form.status">
               <option disabled value="">-Select status-</option>
