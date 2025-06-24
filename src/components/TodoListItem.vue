@@ -10,11 +10,10 @@
     </div>
   </div>
 </template>
-
 <script setup>
 import { defineProps } from "vue";
-import { useListStore } from "@/stores/ListStore";
 
+import { useListStore } from "@/stores/ListStore";
 import BaseButtons from "./BaseButtons.vue";
 
 const listStore = useListStore();
