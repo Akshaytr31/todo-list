@@ -16,7 +16,7 @@ defineProps({
   icon: String,
 });
 
-const emit = defineEmits();
+const emit = defineEmits(['onClick']);
 
 const handleEvent = () => {
   emit("onClick");
