@@ -1,7 +1,7 @@
 <template>
-  <button :class="['base-button', variant]">
-    <i v-if="icon" class="material-icons" @click="handleEvent">{{ icon }}</i>
-    <span @click="handleEvent">{{ text }}</span>
+  <button :class="['base-button', variant]" @click="handleEvent">
+    <i v-if="icon" class="material-icons">{{ icon }}</i>
+    <span>{{ text }}</span>
   </button>
 </template>
 <script setup>
