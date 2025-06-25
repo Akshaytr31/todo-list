@@ -1,19 +1,19 @@
 <template>
   <div class="list-wrapper">
     <p>{{ list.title }}</p>
-    <p>{{ list.status }}</p>
+    <p>{{ list.status || '-' }}</p>
     <div class="container">
-      <router-link to="/view">
+      <router-link :to="`/view/${taskId}`">
         <BaseButtons variant="view" text="view" />
       </router-link>
-      <BaseButtons variant="delete" icon="delete" @on-click="deleteTodoList" />
+      <BaseButtons variant="delete" icon="delete" @on-click="deleteTodoItem" />
     </div>
   </div>
 </template>
 <script setup>
 import { defineProps } from "vue";
-import { useListStore } from "@/stores/ListStore";
 
+import { useListStore } from "@/stores/ListStore";
 import BaseButtons from "./BaseButtons.vue";
 
 const listStore = useListStore();
@@ -25,7 +25,10 @@ const props = defineProps({
   },
 });
 
-const deleteTodoList = (id) => {
+const taskId = props.list.id;
+
+//Delete functin of tasks
+const deleteTodoItem = (id) => {
   listStore.deleteList(props.list.id);
 };
 </script>
