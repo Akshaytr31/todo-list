@@ -1,7 +1,7 @@
 <template>
   <div class="list-wrapper">
     <p>{{ list.title }}</p>
-    <p>{{ list.status === ""?'no status' :list.status }}</p>
+    <p>{{ list.status === "" ? "no status" : list.status }}</p>
     <div class="container">
       <router-link :to="`/view/${taskId}`">
         <BaseButtons variant="view" text="view" />
