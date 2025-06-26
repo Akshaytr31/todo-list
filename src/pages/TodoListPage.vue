@@ -1,19 +1,14 @@
 <template>
   <main>
     <header>
-      <h1>{{ navHeading.title }}</h1>
+      <h1>Todo List</h1>
     </header>
-    <InputForm />
+    <TaskForm />
     <TaskList />
     <DeleteItem />
   </main>
 </template>
 <script setup>
-import DeleteItem from "@/components/DeleteItem.vue";
 import TaskList from "@/components/TaskList.vue";
-import InputForm from "@/components/TaskForm.vue";
-
-const navHeading = {
-  title: "Todo List",
-};
+import TaskForm from "@/components/TaskForm.vue";
 </script>
