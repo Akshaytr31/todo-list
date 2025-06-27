@@ -4,11 +4,11 @@
       <TodoListItem :list="list" />
     </div>
     <div class="clear-block">
-      <div class="number-task">
-        <label for="">Total number of Tasks : </label>
+      <div>
+        <label for="Total">Total number of Tasks : </label>
         <span class="count-tasks">{{ listStore.lists.length }}</span>
       </div>
-      <BaseButtons variant="clear" text="Clear All" @on-click="clearAll" />
+      <BaseButtons variant="clear" text="Clear All" @on-click="clearAllTask" />
     </div>
   </div>
 </template>
@@ -19,7 +19,7 @@ import TodoListItem from "./TodoListItem.vue";
 
 const listStore = useListStore();
 
-const clearAll = () => {
+const clearAllTask = () => {
   listStore.lists = [];
 };
 </script>
