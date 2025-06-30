@@ -1,59 +1,59 @@
 <template>
   <div v-if="show" class="delete-overlay">
     <div class="delete-wraper">
-      <h3>Confirm Deletion</h3>
+      <h3>{{ modalData.heading }}</h3>
       <div>
         <p>
-          Are you sure you want to delete <strong>{{ title }}</strong
-          >?
+          {{ modalData.message }}
         </p>
       </div>
       <div class="delete-container-buttons">
-        <BaseButton variant="plane" text="No" @on-click="closeModal" />
-        <BaseButton variant="delete" text="Yes" @on-click="deleteTodoItem" />
+        <BaseButtons
+          :variant="cancelVariant"
+          text="Cancel"
+          @on-click="$emit('onCancel')"
+        />
+        <BaseButtons
+          :variant="confirmVariant"
+          :text="confirmText"
+          @on-click="$emit('onConfirm')"
+        />
       </div>
     </div>
   </div>
 </template>
 <script setup>
-import { computed } from "vue";
 import { defineProps } from "vue";
-import { useListStore } from "@/stores/ListStore";
-import BaseButton from "./BaseButtons.vue";
-import { useRoute } from "vue-router";
+import BaseButtons from "./BaseButtons.vue";
 
 const props = defineProps({
-  list: {
-    title: String,
-    id: Number,
+  show: {
+    type: Boolean,
+    required: true,
   },
-  show: Boolean,
-  id: Number,
+  modalData: {
+    type: Object,
+  },
+  cancelVariant: {
+    type: String,
+  },
+  confirmText: {
+    type: String,
+    default: "Yes",
+  },
+  confirmVariant: {
+    type: String,
+    default: "delete",
+  },
+  onConfirm: {
+    type: Function,
+    required: true,
+  },
+  onCancel: {
+    type: Function,
+    required: true,
+  },
 });
-
-const title = props.list.title;
-
-const route = useRoute();
-
-const listStore = useListStore();
-
-const taskId = computed(() => Number(route.params.id));
-
-const filterById = (id) => {
-  return computed(() => {
-    return listStore.lists.filter((item) => item.id === id);
-  });
-};
-
-const emit = defineEmits(["close"]);
-
-const closeModal = () => {
-  emit("close");
-};
-
-const deleteTodoItem = (id) => {
-  listStore.deleteList(props.list.id);
-};
 </script>
 <style lang="scss" scoped>
 .delete-overlay {
