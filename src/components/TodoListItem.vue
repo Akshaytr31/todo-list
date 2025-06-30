@@ -1,22 +1,39 @@
 <template>
   <div class="list-wrapper">
     <p>{{ list.title }}</p>
-    <p>{{ list.status || '-' }}</p>
+    <p>{{ list.status || "-" }}</p>
     <div class="container">
-      <router-link :to="`/view/${taskId}`">
+      <router-link :to="`/view/${props.list.id}`" style="text-decoration: none">
         <BaseButtons variant="view" text="view" />
       </router-link>
-      <BaseButtons variant="delete" icon="delete" @on-click="deleteTodoItem" />
+      <BaseButtons
+        variant="delete"
+        icon="delete"
+        @on-click="modalVisible"
+      />
+      <ConfirmationDialogue
+        v-if="isModalVisible"
+        :list="list"
+        :show="isModalVisible"
+        :modal-data="modalContent"
+        cancel-variant="plane"
+        confirm-text="Delete"
+        confirm-variant="delete"
+        @on-confirm="deleteTodoItem"
+        @on-cancel="closeModal"
+      />
     </div>
   </div>
 </template>
 <script setup>
-import { defineProps } from "vue";
+import { defineProps, ref } from "vue";
 
 import { useListStore } from "@/stores/ListStore";
 import BaseButtons from "./BaseButtons.vue";
+import ConfirmationDialogue from "./ConfirmationDialogue.vue";
 
 const listStore = useListStore();
+
 const props = defineProps({
   list: {
     title: String,
@@ -25,11 +42,25 @@ const props = defineProps({
   },
 });
 
+const isModalVisible = ref(false);
+
+const modalContent = {
+  heading: "Confirm Deletion",
+  message: "Are you sure you want to delete this item?",
+};
+
 const taskId = props.list.id;
 
-//Delete functin of tasks
-const deleteTodoItem = (id) => {
-  listStore.deleteList(props.list.id);
+const deleteTodoItem = () => {
+  listStore.deleteList(taskId);
+};
+
+const modalVisible=()=>{
+  isModalVisible.value=true
+}
+
+const closeModal = () => {
+  isModalVisible.value = false;
 };
 </script>
 <style lang="scss" scoped>
@@ -40,7 +71,7 @@ const deleteTodoItem = (id) => {
 }
 
 .delete {
-  height: 47px;
+  height: 37px;
   display: flex;
   justify-content: center;
 }
@@ -48,13 +79,13 @@ const deleteTodoItem = (id) => {
 .list-wrapper {
   max-width: 640px;
   margin: 4px auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-inline: 30px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding-left: 30px;
   background: rgb(255, 252, 252);
   box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.05);
   border-radius: 5px;
+  border: 1px solid rgb(233, 233, 233);
 }
 
 .list-wrapper:hover {
