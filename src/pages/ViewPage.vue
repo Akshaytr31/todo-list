@@ -9,7 +9,7 @@
     </template>
     <template #edit>
       <div class="edit-button">
-        <BaseButtons variant="edit" text="Edit Task" @on-click="addTodo" />
+        <BaseButtons variant="edit" text="Edit Task" @on-click="editTodo" />
       </div>
     </template>
   </TaskForm>
@@ -34,7 +34,7 @@ const newTask = ref("");
 
 const status = ref("");
 
-const addTodo = () => {
+const editTodo = () => {
   if (newTask.value.length > 0) {
     listStore.updateTask({
       title: newTask.value,
