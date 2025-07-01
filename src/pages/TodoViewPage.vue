@@ -31,7 +31,6 @@ const taskId = route.params.id;
 const listStore = useListStore();
 
 const newTask = ref("");
-
 const status = ref("");
 
 const updateTodoItem = () => {
