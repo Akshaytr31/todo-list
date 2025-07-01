@@ -1,22 +1,22 @@
 <template>
-  <div v-if="show" class="delete-overlay">
-    <div class="delete-wraper">
+  <div v-if="show" class="overlay">
+    <div class="wraper">
       <h3>{{ modalData.heading }}</h3>
       <div>
         <p>
           {{ modalData.message }}
         </p>
       </div>
-      <div class="delete-container-buttons">
+      <div class="container-buttons">
         <BaseButtons
-          :variant="cancelVariant"
+          variant="plane"
           text="Cancel"
-          @on-click="$emit('onCancel')"
+          @on-click="$emit('cancel')"
         />
         <BaseButtons
           :variant="confirmVariant"
-          :text="confirmText"
-          @on-click="$emit('onConfirm')"
+          :text="modalData.confirmText"
+          @on-click="$emit('confirm')"
         />
       </div>
     </div>
@@ -24,39 +24,20 @@
 </template>
 <script setup>
 import { defineProps } from "vue";
+
 import BaseButtons from "./BaseButtons.vue";
 
 const props = defineProps({
-  show: {
-    type: Boolean,
-    required: true,
-  },
-  modalData: {
-    type: Object,
-  },
-  cancelVariant: {
-    type: String,
-  },
-  confirmText: {
-    type: String,
-    default: "Yes",
-  },
-  confirmVariant: {
-    type: String,
-    default: "delete",
-  },
-  onConfirm: {
-    type: Function,
-    required: true,
-  },
-  onCancel: {
-    type: Function,
-    required: true,
-  },
+  show: Boolean,
+  modalData: Object,
+  cancelVariant: String,
+  confirmVariant: String,
+  confirm: Function,
+  cancel: Function,
 });
 </script>
 <style lang="scss" scoped>
-.delete-overlay {
+.overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -70,7 +51,7 @@ const props = defineProps({
   flex-direction: column;
 }
 
-.delete-wraper {
+.wraper {
   background-color: white;
   padding: 20px;
   width: 500px;
@@ -80,7 +61,7 @@ const props = defineProps({
   gap: 20px;
 }
 
-.delete-container {
+.container {
   background-color: rgb(255, 255, 255);
   width: 500px;
   padding: 20px;
@@ -92,7 +73,7 @@ const props = defineProps({
   box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.05);
 }
 
-.delete-container-buttons {
+.container-buttons {
   display: flex;
   gap: 20px;
   justify-content: flex-end;
