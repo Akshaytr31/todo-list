@@ -6,21 +6,15 @@
       <router-link :to="`/view/${props.list.id}`" style="text-decoration: none">
         <BaseButtons variant="view" text="view" />
       </router-link>
-      <BaseButtons
-        variant="delete"
-        icon="delete"
-        @on-click="modalVisible"
-      />
+      <BaseButtons variant="delete" icon="delete" @on-click="showModal" />
       <ConfirmationDialogue
-        v-if="isModalVisible"
+        v-if="isModalOpen"
         :list="list"
-        :show="isModalVisible"
+        :show="isModalOpen"
         :modal-data="modalContent"
-        cancel-variant="plane"
-        confirm-text="Delete"
         confirm-variant="delete"
-        @on-confirm="deleteTodoItem"
-        @on-cancel="closeModal"
+        @confirm="deleteTodoItem"
+        @cancel="closeModal"
       />
     </div>
   </div>
@@ -42,11 +36,12 @@ const props = defineProps({
   },
 });
 
-const isModalVisible = ref(false);
+const isModalOpen = ref(false);
 
 const modalContent = {
   heading: "Confirm Deletion",
   message: "Are you sure you want to delete this item?",
+  confirmText: "Delete",
 };
 
 const taskId = props.list.id;
@@ -55,12 +50,12 @@ const deleteTodoItem = () => {
   listStore.deleteList(taskId);
 };
 
-const modalVisible=()=>{
-  isModalVisible.value=true
-}
+const showModal = () => {
+  isModalOpen.value = true;
+};
 
 const closeModal = () => {
-  isModalVisible.value = false;
+  isModalOpen.value = false;
 };
 </script>
 <style lang="scss" scoped>
