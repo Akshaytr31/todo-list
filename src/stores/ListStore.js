@@ -1,27 +1,46 @@
-import { ref } from "vue";
-import { defineStore } from "pinia";
+import { ref } from 'vue'
+import { defineStore } from 'pinia'
 
 export const useListStore = defineStore(
-  "listStore",
+  'listStore',
   () => {
-    const lists = ref([]);
+    const lists = ref([])
+    const users = ref([])
 
     const setTodoList = (data) => {
-      lists.value.push(data);
-    };
+      lists.value.push(data)
+    }
 
     const deleteList = (id) => {
-      lists.value = lists.value.filter((item) => item.id !== id);
-    };
+      lists.value = lists.value.filter((item) => item.id !== id)
+    }
 
-    const updateTodolist = (updatedTask) => {
-      const index = lists.value.findIndex((item) => item.id === updatedTask.id);
-      lists.value[index] = { ...lists.value[index], ...updatedTask };
-    };
+    const updateTodolist = (updatedTodoItem) => {
+      lists.value = lists.value.map((item) =>
+        item.id === updatedTodoItem.id ? { ...item, ...updatedTodoItem } : item
+      )
+    }
 
-    return { lists, setTodoList, deleteList, updateTodolist};
+    const fetchUsers = async () => {
+      try {
+        const res = await fetch('https://jsonplaceholder.typicode.com/users')
+        const data = await res.json()
+        users.value = data
+      } catch (err) {
+        console.error('Failed to fetch users:', err)
+      }
+    }
+
+    return {
+      lists,
+      users,
+      setTodoList,
+      deleteList,
+      updateTodolist,
+      fetchUsers
+    }
   },
   {
-    persist: true,
+    persist: true
   }
-);
+)
