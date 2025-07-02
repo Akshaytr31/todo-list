@@ -1,5 +1,5 @@
 <template>
-  <div v-if="show" class="overlay">
+  <div v-if="isModalOpen" class="overlay">
     <div class="wraper">
       <h3>{{ modalData.heading }}</h3>
       <div>
@@ -8,15 +8,11 @@
         </p>
       </div>
       <div class="container-buttons">
-        <BaseButtons
-          variant="plane"
-          text="Cancel"
-          @on-click="$emit('cancel')"
-        />
+        <BaseButtons variant="plane" text="Cancel" @on-click="cancel" />
         <BaseButtons
           :variant="confirmVariant"
           :text="modalData.confirmText"
-          @on-click="$emit('confirm')"
+          @on-click="confirm"
         />
       </div>
     </div>
@@ -24,17 +20,25 @@
 </template>
 <script setup>
 import { defineProps } from "vue";
+import { defineEmits } from "vue";
 
 import BaseButtons from "./BaseButtons.vue";
 
+const emit = defineEmits();
+
 const props = defineProps({
-  show: Boolean,
+  isModalOpen: Boolean,
   modalData: Object,
-  cancelVariant: String,
   confirmVariant: String,
-  confirm: Function,
-  cancel: Function,
 });
+
+const confirm = () => {
+  emit("confirm");
+};
+
+const cancel = () => {
+  emit("cancel");
+};
 </script>
 <style lang="scss" scoped>
 .overlay {
