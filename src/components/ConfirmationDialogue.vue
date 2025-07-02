@@ -8,11 +8,15 @@
         </p>
       </div>
       <div class="container-buttons">
-        <BaseButtons variant="plane" text="Cancel" @on-click="cancel" />
+        <BaseButtons
+          variant="plane"
+          text="Cancel"
+          @on-click="handleCancelClick"
+        />
         <BaseButtons
           :variant="confirmVariant"
           :text="modalData.confirmText"
-          @on-click="confirm"
+          @on-click="handleConfirmClick"
         />
       </div>
     </div>
@@ -32,11 +36,11 @@ const props = defineProps({
   confirmVariant: String,
 });
 
-const confirm = () => {
+const handleConfirmClick = () => {
   emit("confirm");
 };
 
-const cancel = () => {
+const handleCancelClick = () => {
   emit("cancel");
 };
 </script>
