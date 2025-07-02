@@ -4,7 +4,7 @@
     <p>{{ list.status || "-" }}</p>
     <p>{{ list.assignedUser?.name || "Unassigned" }}</p>
     <div class="container">
-      <router-link :to="`/view/${props.list.id}`" style="text-decoration: none">
+      <router-link :to="`/view/${taskID}`" style="text-decoration: none">
         <BaseButtons variant="view" text="view" />
       </router-link>
       <BaseButtons variant="delete" icon="delete" @on-click="showModal" />
@@ -44,10 +44,10 @@ const modalContent = {
   confirmText: "Delete",
 };
 
-const taskId = props.list.id;
+const taskID = props.list.id;
 
 const deleteTodoItem = () => {
-  listStore.deleteList(taskId);
+  listStore.deleteList(taskID);
 };
 
 const showModal = () => {
