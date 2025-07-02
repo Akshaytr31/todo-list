@@ -2,6 +2,7 @@
   <div class="list-wrapper">
     <p>{{ list.title }}</p>
     <p>{{ list.status || "-" }}</p>
+    <p>{{ list.assignedUser?.name || "Unassigned" }}</p>
     <div class="container">
       <router-link :to="`/view/${props.list.id}`" style="text-decoration: none">
         <BaseButtons variant="view" text="view" />
@@ -9,8 +10,7 @@
       <BaseButtons variant="delete" icon="delete" @on-click="showModal" />
       <ConfirmationDialogue
         v-if="isModalOpen"
-        :list="list"
-        :show="isModalOpen"
+        :isModalOpen="isModalOpen"
         :modal-data="modalContent"
         confirm-variant="delete"
         @confirm="deleteTodoItem"
@@ -75,7 +75,7 @@ const closeModal = () => {
   max-width: 640px;
   margin: 4px auto;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   padding-left: 30px;
   background: rgb(255, 252, 252);
   box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.05);
