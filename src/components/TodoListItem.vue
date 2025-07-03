@@ -1,22 +1,33 @@
 <template>
   <div class="list-wrapper">
     <p>{{ list.title }}</p>
-    <p>{{ list.status || '-' }}</p>
+    <p>{{ list.status || "-" }}</p>
+    <p>{{ list.assignedUser?.name || "Unassigned" }}</p>
     <div class="container">
-      <router-link :to="`/view/${taskId}`">
+      <router-link :to="`/view/${taskID}`" style="text-decoration: none">
         <BaseButtons variant="view" text="view" />
       </router-link>
-      <BaseButtons variant="delete" icon="delete" @on-click="deleteTodoItem" />
+      <BaseButtons variant="delete" icon="delete" @on-click="showModal" />
+      <ConfirmationDialogue
+        v-if="isModalOpen"
+        :isModalOpen="isModalOpen"
+        :modal-data="modalContent"
+        confirm-variant="delete"
+        @confirm="deleteTodoItem"
+        @cancel="closeModal"
+      />
     </div>
   </div>
 </template>
 <script setup>
-import { defineProps } from "vue";
+import { defineProps, ref } from "vue";
 
 import { useListStore } from "@/stores/ListStore";
 import BaseButtons from "./BaseButtons.vue";
+import ConfirmationDialogue from "./ConfirmationDialogue.vue";
 
 const listStore = useListStore();
+
 const props = defineProps({
   list: {
     title: String,
@@ -25,11 +36,26 @@ const props = defineProps({
   },
 });
 
-const taskId = props.list.id;
+const isModalOpen = ref(false);
 
-//Delete functin of tasks
-const deleteTodoItem = (id) => {
-  listStore.deleteList(props.list.id);
+const modalContent = {
+  heading: "Confirm Deletion",
+  message: "Are you sure you want to delete this item?",
+  confirmText: "Delete",
+};
+
+const taskID = props.list.id;
+
+const deleteTodoItem = () => {
+  listStore.deleteList(taskID);
+};
+
+const showModal = () => {
+  isModalOpen.value = true;
+};
+
+const closeModal = () => {
+  isModalOpen.value = false;
 };
 </script>
 <style lang="scss" scoped>
@@ -40,7 +66,7 @@ const deleteTodoItem = (id) => {
 }
 
 .delete {
-  height: 47px;
+  height: 37px;
   display: flex;
   justify-content: center;
 }
@@ -48,13 +74,13 @@ const deleteTodoItem = (id) => {
 .list-wrapper {
   max-width: 640px;
   margin: 4px auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-inline: 30px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding-left: 30px;
   background: rgb(255, 252, 252);
   box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.05);
   border-radius: 5px;
+  border: 1px solid rgb(233, 233, 233);
 }
 
 .list-wrapper:hover {
