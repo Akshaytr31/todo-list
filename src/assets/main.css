@@ -12,6 +12,9 @@ header{
   display: flex;
   justify-content: center;
   background-color: #676666;
+  padding: 25px;
+  font-size: 40px;
+  font-weight: 700;
 }
 
 .list-elements{
