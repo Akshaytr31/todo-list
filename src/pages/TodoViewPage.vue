@@ -24,11 +24,13 @@
 </template>
 <script setup>
 import { ref } from "vue";
+import { watchEffect } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 import { useListStore } from "@/stores/ListStore";
 import BaseButtons from "@/components/BaseButtons.vue";
 import TaskForm from "@/components/TaskForm.vue";
+import User from "@/types/User";
 
 const route = useRoute();
 
@@ -55,8 +57,6 @@ const updateTodoItem = () => {
     router.push("/");
   }
 };
-import { watchEffect } from "vue";
-import User from "@/types/User";
 
 watchEffect(() => {
   const task = listStore.lists.find((item) => item.id === Number(taskID));
