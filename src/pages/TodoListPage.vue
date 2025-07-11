@@ -1,22 +1,48 @@
 <template>
   <main>
-    <TaskForm>
+    <TaskForm v-model="form">
       <template #footer>
         <div class="button-container">
-          <BaseButtos variant="primary" text="Add Task" />
+          <BaseButtons variant="primary" text="Add Task" @on-click="addTodo" />
         </div>
       </template>
     </TaskForm>
     <TaskList />
   </main>
 </template>
-<script setup>
+<script setup lang="ts">
+import { ref } from "vue";
 import TaskList from "@/components/TaskList.vue";
 import TaskForm from "@/components/TaskForm.vue";
-import BaseButtos from "@/components/BaseButton.vue";
+import BaseButtons from "@/components/BaseButton.vue";
+import { useListStore } from "@/stores/ListStore";
+import type { FormType } from "@/types/FormType";
+
+const listStore = useListStore();
+
+const form = ref<FormType>({
+  newTask: "",
+  status: "",
+  assignedUser: null,
+});
+
+const addTodo = () => {
+  if (form.value.newTask.trim().length > 0) {
+    listStore.setTodoList({
+      title: form.value.newTask,
+      status: form.value.status,
+      assignedUser: form.value.assignedUser,
+      id: listStore.lists.length + 1,
+    });
+
+    form.value.newTask = "";
+    form.value.status = "";
+    form.value.assignedUser = null;
+  }
+};
 </script>
 <style lang="scss" scoped>
-.button-container{
+.button-container {
   display: flex;
   justify-content: flex-end;
   padding-inline: 40px;

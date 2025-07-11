@@ -1,113 +1,97 @@
 <template>
   <div class="main-container">
-    <form @submit.prevent="addTodo" class="form-input">
+    <form @submit.prevent class="form-input">
       <div class="form-container">
         <div class="input-container">
           <label for="input">Todo item:</label>
           <input
+            id="input"
             type="text"
             placeholder="Enter list item"
-            @input="updateNewTask"
-            v-model="newTask"
+            :value="modelValue.newTask"
+            @input="handleTaskChange"
           />
         </div>
         <div class="input-container">
           <label for="type">Status:</label>
           <div class="select-container">
             <select
-              name="type"
               id="type"
-              @change="updateStatus"
-              v-model="form.status"
+              :value="modelValue.status"
+              @change="handleStatusChange"
             >
-              <option value="-">-Select status-</option>
+              <option value="">-Select status-</option>
               <option value="Todo">Todo</option>
               <option value="In Progress">In Progress</option>
               <option value="Done">Done</option>
             </select>
           </div>
         </div>
+
         <div class="input-container">
           <label for="user">Assigned to:</label>
-          <UserDropDown
-            :users="listStore.users"
-            :modelValue="assignedUser"
-            @update:modelValue="onUserSelect"
-            class="userSelction"
-          />
+          <div class="select-container">
+            <select
+              :value="modelValue.assignedUser"
+              @change="handleAssignedUserChange"
+            >
+              <option value="">-Select User-</option>
+              <option
+                v-for="user in listStore.users"
+                :key="user.id"
+                :value="user.name"
+              >
+                {{ user.name }}
+              </option>
+            </select>
+          </div>
         </div>
       </div>
       <slot name="footer"></slot>
     </form>
   </div>
 </template>
-<script setup>
-import { ref, reactive, onMounted, watch } from "vue";
+<script setup lang="ts">
+import { defineEmits, defineProps, onMounted } from "vue";
 import { useListStore } from "@/stores/ListStore";
-import UserDropDown from "./UserDropDown.vue";
+import type { FormType } from "@/types/FormType";
 
-const props = defineProps({
-  newTask: String,
-  status: String,
-  assignedUser: Object,
+const props = withDefaults(defineProps<{ modelValue?: FormType }>(), {
+  modelValue: () => ({
+    newTask: "",
+    status: "",
+    assignedUser: null,
+  }),
 });
-
-const emit = defineEmits([
-  "update:newTask",
-  "update:status",
-  "update:assignedUser",
-]);
-
-const onUserSelect = (val) => {
-  assignedUser.value = val;
-  emit("update:assignedUser", val);
-};
-
-const newTask = ref("");
-
-const form = reactive({ status: "-" });
-
-const assignedUser = ref(null);
+const emit = defineEmits(["update:modelValue"]);
 
 const listStore = useListStore();
 
+function handleInputChange(field: keyof FormType, value: string) {
+  emit("update:modelValue", {
+    ...props.modelValue,
+    [field]: value,
+  });
+}
 
-const updateNewTask = (event) => {
-  emit("update:newTask", event.target.value);
-};
+function handleTaskChange(e: Event) {
+  const target = e.target as HTMLInputElement;
+  handleInputChange("newTask", target.value);
+}
 
-const updateStatus = (event) => {
-  emit("update:status", event.target.value);
-};
+function handleStatusChange(e: Event) {
+  const target = e.target as HTMLSelectElement;
+  handleInputChange("status", target.value);
+}
 
-const addTodo = () => {
-  if (newTask.value.length > 0) {
-    listStore.setTodoList({
-      title: newTask.value,
-      status: form.status,
-      assignedUser: assignedUser.value,
-      id: listStore.lists.length + 1,
-    });
-    
-    newTask.value = "";
-    form.status = "-";
-    assignedUser.value = "";
-  }
-};
+function handleAssignedUserChange(e: Event) {
+  const target = e.target as HTMLSelectElement;
+  handleInputChange("assignedUser", target.value);
+}
 
-onMounted(() => {
-  if (listStore.users.length === 0) {
-    listStore.fetchUsers();
-  }
+onMounted(async () => {
+  await listStore.fetchUsers();
 });
-
-watch(
-  () => props.assignedUser,
-  (val) => {
-    assignedUser.value = val;
-  },
-  { immediate: true }
-);
 </script>
 <style lang="scss" scoped>
 .main-container {
