@@ -42,7 +42,7 @@ const newTask = ref("");
 
 const status = ref("");
 
-const assignedUser = ref(null);
+const assignedUser = (ref < User) | (null > null);
 
 const updateTodoItem = () => {
   if (newTask.value.length > 0) {
@@ -56,13 +56,14 @@ const updateTodoItem = () => {
   }
 };
 import { watchEffect } from "vue";
+import User from "@/types/User";
 
 watchEffect(() => {
   const task = listStore.lists.find((item) => item.id === Number(taskID));
   if (task) {
     newTask.value = task.title;
     status.value = task.status;
-    assignedUser.value = task.assignedUser || null;
+    assignedUser = task.assignedUser || null;
   } else {
     console.log("There is no task");
   }
