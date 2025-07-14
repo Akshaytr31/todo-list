@@ -1,37 +1,46 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
-import axios from "axios";
+import type Task from "../types/Task";
+import type User from "@/types/User";
+import api from "@/sevice/api";
 
-import API_URL from "../routes/index";
+import API_URLS from "@/api/endpoint";
 
 export const useListStore = defineStore(
   "listStore",
   () => {
-    const lists = ref([]);
-    const users = ref([]);
+    const lists = ref<Task[]>([]);
+    const users = ref<User[]>([]);
 
-    const setTodoList = (data) => {
+    const setTodoList = (data: Task): void => {
       lists.value.push(data);
     };
 
-    const deleteList = (id) => {
-      lists.value = lists.value.filter((item) => item.id !== id);
+    const deleteList = (id: number) => {
+      lists.value = lists.value.filter((item: Task) => item.id !== id);
     };
 
-    const updateTodolist = (updatedTodoItem) => {
-      lists.value = lists.value.map((item) =>
+    const updateTodolist = (updatedTodoItem: Task): void => {
+      lists.value = lists.value.map((item: Task) =>
         item.id === updatedTodoItem.id ? { ...item, ...updatedTodoItem } : item
       );
     };
 
-    const fetchUsers = async () => {
+    const fetchUsers = async (): Promise<void> => {
       try {
-        const res = await axios.get(API_URL);
-        const data = await res.json();
-        users.value = data;
+        const res = await api.get(API_URLS.getUsersList());
+        if (Array.isArray(res.data)) {
+          users.value = res.data;
+        } else {
+          console.error("Unexpected response format:", res.data);
+        }
       } catch (err) {
         console.error("Failed to fetch users:", err);
       }
+    };
+
+    const clearAll = () => {
+      lists.value = [];
     };
 
     return {
@@ -41,6 +50,7 @@ export const useListStore = defineStore(
       deleteList,
       updateTodolist,
       fetchUsers,
+      clearAll
     };
   },
   {
