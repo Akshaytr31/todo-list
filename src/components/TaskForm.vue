@@ -9,8 +9,8 @@
             type="text"
             placeholder="Enter list item"
             :value="modelValue.newTask"
-            @input="handleTaskChange"
-          />
+            @input="(e)=>handleInputChange('newTask',(e.target as HTMLInputElement).value)"
+            />
         </div>
         <div class="input-container">
           <label for="type">Status:</label>
@@ -18,8 +18,8 @@
             <select
               id="type"
               :value="modelValue.status"
-              @change="handleStatusChange"
-            >
+              @change="(e) => handleInputChange('status', (e.target as HTMLSelectElement).value)"
+              >
               <option value="">-Select status-</option>
               <option value="Todo">Todo</option>
               <option value="In Progress">In Progress</option>
@@ -33,8 +33,8 @@
           <div class="select-container">
             <select
               :value="modelValue.assignedUser"
-              @change="handleAssignedUserChange"
-            >
+              @change="(e) => handleInputChange('assignedUser', (e.target as HTMLSelectElement).value)"
+              >
               <option value="">-Select User-</option>
               <option
                 v-for="user in listStore.users"
@@ -54,39 +54,28 @@
 <script setup lang="ts">
 import { defineEmits, defineProps, onMounted } from "vue";
 import { useListStore } from "@/stores/ListStore";
-import type { FormType } from "@/types/FormType";
+import type { index } from "@/types";
 
-const props = withDefaults(defineProps<{ modelValue?: FormType }>(), {
-  modelValue: () => ({
-    newTask: "",
-    status: "",
-    assignedUser: null,
-  }),
-});
+const props = withDefaults(
+  defineProps<{ modelValue?: index }>(),
+  {
+    modelValue: () => ({
+      newTask: "",
+      status: "",
+      assignedUser: null,
+    }),
+  }
+);
+
 const emit = defineEmits(["update:modelValue"]);
 
 const listStore = useListStore();
 
-function handleInputChange(field: keyof FormType, value: string) {
+function handleInputChange(field: keyof index, value: string) {
   emit("update:modelValue", {
     ...props.modelValue,
     [field]: value,
   });
-}
-
-function handleTaskChange(e: Event) {
-  const target = e.target as HTMLInputElement;
-  handleInputChange("newTask", target.value);
-}
-
-function handleStatusChange(e: Event) {
-  const target = e.target as HTMLSelectElement;
-  handleInputChange("status", target.value);
-}
-
-function handleAssignedUserChange(e: Event) {
-  const target = e.target as HTMLSelectElement;
-  handleInputChange("assignedUser", target.value);
 }
 
 onMounted(async () => {
