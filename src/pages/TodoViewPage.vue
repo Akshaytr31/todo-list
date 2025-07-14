@@ -5,11 +5,7 @@
         <BaseButtons variant="back" text="back" />
       </router-link>
     </div>
-    <TaskForm
-      v-model:newTask="newTask"
-      v-model:status="status"
-      v-model:assignedUser="assignedUser"
-    >
+    <TaskForm v-model="form">
       <template #footer>
         <div class="edit-button">
           <BaseButtons
@@ -22,52 +18,62 @@
     </TaskForm>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 import { ref } from "vue";
-import { watchEffect } from "vue";
+import { watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 import { useListStore } from "@/stores/ListStore";
 import BaseButtons from "@/components/BaseButtons.vue";
 import TaskForm from "@/components/TaskForm.vue";
-import User from "@/types/User";
+import type { index } from "@/types";
 
 const route = useRoute();
 
 const router = useRouter();
 
-const taskID = route.params.id;
+const taskID =route.params.id ;
 
 const listStore = useListStore();
 
-const newTask = ref("");
+const currentItem = listStore.lists.find(
+  (item) => item.id.toString() === taskID
+);
 
-const status = ref("");
-
-const assignedUser = (ref < User) | (null > null);
+const form = ref<index>({
+  newTask: currentItem?.title || "",
+  status: currentItem?.status || "",
+  assignedUser: currentItem?.assignedUser || null,
+});
 
 const updateTodoItem = () => {
-  if (newTask.value.length > 0) {
+  if (form.value.newTask.length > 0) {
     listStore.updateTodolist({
-      title: newTask.value,
-      status: status.value,
-      assignedUser: assignedUser.value,
+      title: form.value.newTask,
+      status: form.value.status,
+      assignedUser: form.value.assignedUser,
       id: Number(taskID),
     });
     router.push("/");
   }
 };
 
-watchEffect(() => {
-  const task = listStore.lists.find((item) => item.id === Number(taskID));
-  if (task) {
-    newTask.value = task.title;
-    status.value = task.status;
-    assignedUser = task.assignedUser || null;
-  } else {
-    console.log("There is no task");
-  }
-});
+
+watch(
+  () => listStore.lists,
+  (newList) => {
+    const task = newList.find((item) => item.id === Number(taskID));
+    if (task) {
+      console.log("Task updated", form.value);
+
+      form.value.newTask = task.title;
+      form.value.status = task.status;
+      form.value.assignedUser = task.assignedUser || null;
+    }
+  },
+  { immediate: true, deep: true }
+);
+
 </script>
 <style lang="scss" scoped>
 .wrapper {
