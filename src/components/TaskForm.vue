@@ -71,7 +71,7 @@ const emit = defineEmits(["update:modelValue"]);
 
 const listStore = useListStore();
 
-function handleInputChange(field: keyof index, value: string) {
+function handleInputChange(field: string, value: string) {
   emit("update:modelValue", {
     ...props.modelValue,
     [field]: value,
