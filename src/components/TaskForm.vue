@@ -54,10 +54,10 @@
 <script setup lang="ts">
 import { defineEmits, defineProps, onMounted } from "vue";
 import { useListStore } from "@/stores/ListStore";
-import type { index } from "@/types";
+import type { Task } from "@/types";
 
 const props = withDefaults(
-  defineProps<{ modelValue?: index }>(),
+  defineProps<{ modelValue?: Task }>(),
   {
     modelValue: () => ({
       newTask: "",
