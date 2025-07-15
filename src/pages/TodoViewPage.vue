@@ -26,13 +26,13 @@ import { useRoute, useRouter } from "vue-router";
 import { useListStore } from "@/stores/ListStore";
 import BaseButtons from "@/components/BaseButtons.vue";
 import TaskForm from "@/components/TaskForm.vue";
-import type { index } from "@/types";
+import type { Task } from "@/types";
 
 const route = useRoute();
 
 const router = useRouter();
 
-const taskID =route.params.id ;
+const taskID = route.params.id;
 
 const listStore = useListStore();
 
@@ -40,7 +40,7 @@ const currentItem = listStore.lists.find(
   (item) => item.id.toString() === taskID
 );
 
-const form = ref<index>({
+const form = ref<Task>({
   newTask: currentItem?.title || "",
   status: currentItem?.status || "",
   assignedUser: currentItem?.assignedUser || null,
@@ -58,14 +58,11 @@ const updateTodoItem = () => {
   }
 };
 
-
 watch(
   () => listStore.lists,
   (newList) => {
     const task = newList.find((item) => item.id === Number(taskID));
     if (task) {
-      console.log("Task updated", form.value);
-
       form.value.newTask = task.title;
       form.value.status = task.status;
       form.value.assignedUser = task.assignedUser || null;
@@ -73,7 +70,6 @@ watch(
   },
   { immediate: true, deep: true }
 );
-
 </script>
 <style lang="scss" scoped>
 .wrapper {
