@@ -54,10 +54,10 @@
 <script setup lang="ts">
 import { defineEmits, defineProps, onMounted } from "vue";
 import { useListStore } from "@/stores/ListStore";
-import type { Task } from "@/types";
+import type { TodoItem } from "@/types";
 
 const props = withDefaults(
-  defineProps<{ modelValue?: Task }>(),
+  defineProps<{ modelValue?: TodoItem }>(),
   {
     modelValue: () => ({
       newTask: "",
