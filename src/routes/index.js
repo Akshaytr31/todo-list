@@ -1,26 +1,24 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory, type RouteRecordRaw } from "vue-router";
 
-import TodoListPage from "@/pages/TodoListPage.vue";
-import TodoViewPage from "@/pages/TodoViewPage.vue";
+import HomePage from "@/pages/HomePage.vue";
+import ViewPage from "@/pages/ViewPage.vue";
 
-const API_URL='https://jsonplaceholder.typicode.com/users'
-
-const routes = [
+const routes: RouteRecordRaw[] = [
   {
     path: "/",
     name: "home",
-    component: TodoListPage,
+    component: HomePage,
   },
   {
     path: "/view/:id",
     name: "view",
-    component: TodoViewPage,
+    component: ViewPage,
   },
 ];
 
 const router = createRouter({
   history: createWebHistory(),
-  routes,
+  routes
 });
 
 export default router;
