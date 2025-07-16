@@ -26,7 +26,7 @@ import { useRoute, useRouter } from "vue-router";
 import { useListStore } from "@/stores/ListStore";
 import BaseButtons from "@/components/BaseButtons.vue";
 import TaskForm from "@/components/TaskForm.vue";
-import type { Task } from "@/types";
+import type { TodoItem } from "@/types";
 
 const route = useRoute();
 
@@ -40,7 +40,7 @@ const currentItem = listStore.lists.find(
   (item) => item.id.toString() === taskID
 );
 
-const form = ref<Task>({
+const form = ref<TodoItem>({
   newTask: currentItem?.title || "",
   status: currentItem?.status || "",
   assignedUser: currentItem?.assignedUser || null,
