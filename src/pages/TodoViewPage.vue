@@ -19,8 +19,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref } from "vue";
-import { watch } from "vue";
+import { ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 import { useListStore } from "@/stores/ListStore";
