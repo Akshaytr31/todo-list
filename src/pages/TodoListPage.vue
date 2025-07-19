@@ -17,11 +17,11 @@ import TaskList from "@/components/TaskList.vue";
 import TaskForm from "@/components/TaskForm.vue";
 import BaseButtons from "@/components/BaseButton.vue";
 import { useListStore } from "@/stores/ListStore";
-import type { index } from "@/types";
+import type { TodoItem } from "@/types";
 
 const listStore = useListStore();
 
-const form = ref<index>({
+const form = ref<TodoItem>({
   newTask: "",
   status: "",
   assignedUser: null,

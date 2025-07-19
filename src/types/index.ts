@@ -1,4 +1,4 @@
-export type Task = {
+export type TodoItem = {
     newTask: string;
     status: string;
     assignedUser: string | null;
