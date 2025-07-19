@@ -1,15 +1,25 @@
 <template>
   <div class="main-container">
-    <form @submit.prevent="addTodo" class="form-input">
+    <form @submit.prevent class="form-input">
       <div class="form-container">
         <div class="input-container">
           <label for="input">Todo item:</label>
-          <input type="text" placeholder="Enter list item" v-model="newTask"/>
+          <input
+            id="input"
+            type="text"
+            placeholder="Enter list item"
+            :value="modelValue.newTask"
+            @input="(e)=>handleInputChange('newTask',(e.target as HTMLInputElement).value)"
+            />
         </div>
         <div class="input-container">
           <label for="type">Status:</label>
           <div class="select-container">
-            <select name="type" id="type" v-model="form.status">
+            <select
+              id="type"
+              :value="modelValue.status"
+              @change="(e) => handleInputChange('status', (e.target as HTMLSelectElement).value)"
+              >
               <option value="">-Select status-</option>
               <option value="Todo">Todo</option>
               <option value="In Progress">In Progress</option>
@@ -17,37 +27,60 @@
             </select>
           </div>
         </div>
+
+        <div class="input-container">
+          <label for="user">Assigned to:</label>
+          <div class="select-container">
+            <select
+              :value="modelValue.assignedUser"
+              @change="(e) => handleInputChange('assignedUser', (e.target as HTMLSelectElement).value)"
+              >
+              <option value="">-Select User-</option>
+              <option
+                v-for="user in listStore.users"
+                :key="user.id"
+                :value="user.name"
+              >
+                {{ user.name }}
+              </option>
+            </select>
+          </div>
+        </div>
       </div>
-      <div class="button-container">
-        <BaseButtons variant="primary" text="Add Task" />
-      </div>
+      <slot name="footer" />
     </form>
   </div>
 </template>
-<script setup>
-import { reactive, ref } from "vue";
-
+<script setup lang="ts">
+import { defineEmits, defineProps, onMounted } from "vue";
 import { useListStore } from "@/stores/ListStore";
-import BaseButtons from "./BaseButtons.vue";
+import type { TodoItem } from "@/types";
 
-const form = reactive({
-  status: "",
-});
+const props = withDefaults(
+  defineProps<{ modelValue?: TodoItem }>(),
+  {
+    modelValue: () => ({
+      newTask: "",
+      status: "",
+      assignedUser: null,
+    }),
+  }
+);
+
+const emit = defineEmits(["update:modelValue"]);
 
 const listStore = useListStore();
 
-const newTask = ref("");
+function handleInputChange(field: string, value: string) {
+  emit("update:modelValue", {
+    ...props.modelValue,
+    [field]: value,
+  });
+}
 
-const addTodo = () => {
-  if (newTask.value.length > 0) {
-    listStore.setTodoList({
-      title: newTask.value,
-      status: form.status,
-      id: listStore.lists.length + 1,
-    });
-    newTask.value = "";
-  }
-};
+onMounted(async () => {
+  await listStore.fetchUsers();
+});
 </script>
 <style lang="scss" scoped>
 .main-container {
@@ -81,15 +114,22 @@ const addTodo = () => {
   text-wrap: nowrap;
 }
 
-.input-container:last-child {
+.userSelction {
+  width: 100%;
+}
+
+.input-container:nth-child(2) {
   gap: 80px;
+}
+
+.input-container:last-child {
+  gap: 38px;
 }
 
 .select-container {
   width: 100%;
   box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.05);
-  padding: 7px 10px;
-  border-radius: 10px;
+  border-radius: 5px;
   border: 1px solid rgb(232, 232, 232);
 }
 
@@ -101,8 +141,8 @@ const addTodo = () => {
 }
 
 input {
-  padding: 10px;
-  border-radius: 10px;
+  padding: 8px;
+  border-radius: 5px;
   border: none;
   box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.05);
   width: 100%;
@@ -117,6 +157,8 @@ select {
   border: none;
   width: 100%;
   background: rgb(255, 255, 255);
+  padding: 7px;
+  border-radius: 5px;
 }
 
 select:focus {
